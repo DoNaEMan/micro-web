@@ -1,0 +1,81 @@
+{
+  "name": "micro-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "nodemonConfig": {
+    "ignore": [
+      "pages/*",
+      "docs/*"
+    ],
+    "delay": "2500"
+  },
+    "scripts": {
+    "dev": "cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
+    "build": "cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js && node ./server/app/server.prd.js",
+    "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoNaEMan/micro-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoNaEMan/micro-web/issues"
+  },
+  "homepage": "https://github.com/DoNaEMan/micro-web#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.5",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-redux": "^5.1.1",
+    "react-router-config": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "asset-require-hook": "^1.2.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-plugin-import": "^1.11.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "clean-webpack-plugin": "^2.0.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.1",
+    "css-modules-require-hook": "^4.2.3",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-standard": "^4.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-harddisk-plugin": "^1.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-webpack-dev-middleware": "^2.0.2",
+    "koa-webpack-hot-middleware": "^1.0.3",
+    "koa-webpack-middleware": "^1.0.7",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.10",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "redux-logger": "^3.0.6",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.15.0",
+    "webpack-cli": "^3.3.0"
+  }
+}
