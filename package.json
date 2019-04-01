@@ -11,8 +11,8 @@
     "delay": "2500"
   },
   "scripts": {
-    "dev": "cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
-    "build": "cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js && node ./server/app/server.prd.js",
+    "dev": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
+    "build": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js && node ./server/app/server.prd.js",
     "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix"
   },
   "repository": {
