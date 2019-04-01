@@ -10,8 +10,8 @@
     ],
     "delay": "2500"
   },
-    "scripts": {
-    "dev": "cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
+  "scripts": {
+    "dev": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
     "build": "cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js && node ./server/app/server.prd.js",
     "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix"
   },
@@ -73,6 +73,7 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react-dirname-router": "^1.0.0",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.23.1",
     "webpack": "^4.15.0",

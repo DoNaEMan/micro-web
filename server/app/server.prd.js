@@ -32,7 +32,7 @@ const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
 
-const routes = require('../../pages/router');
+const routes = require('../../shared/router');
 
 const app = new Koa();
 

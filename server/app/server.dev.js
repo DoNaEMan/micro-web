@@ -38,7 +38,7 @@ const webpackHotMiddleware = require('koa-webpack-hot-middleware');
 const config = require('../../webpack/webpack.dev.js');
 
 const compiler = webpack(config);
-const routes = require('../../pages/router');
+const routes = require('../../shared/router');
 
 const app = new Koa();
 

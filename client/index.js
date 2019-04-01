@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
-import routes from '../pages/router';
+import routes from '../shared/router';
 
 ReactDOM.render(
   <BrowserRouter>

@@ -70,3 +70,4 @@ typings/
 .vscode
 
 /client/index.html
+/shared/router.js
