@@ -1,7 +1,7 @@
-import TestB from './TestB';
+import loadable from 'loadable-components';
 
 export default [{
   path: '/b',
   exact: true,
-  component: TestB,
+  component: loadable(() => import('./TestB')),
 }]

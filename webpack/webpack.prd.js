@@ -43,7 +43,7 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           presets: ['env', 'react'],
-          plugins: ['syntax-dynamic-import', 'transform-decorators-legacy'],
+          plugins: ['syntax-dynamic-import', 'transform-decorators-legacy', 'loadable-components/babel'],
         },
       },
     ],

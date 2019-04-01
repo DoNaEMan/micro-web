@@ -1,7 +1,7 @@
 require('babel-register')({
   ignore: /node_modules\//,
   presets: ['env', 'react'],
-  plugins: ['add-module-exports'],
+  plugins: ['add-module-exports', 'loadable-components/babel', 'dynamic-import-node'],
 });
 
 // scss compiler hook
@@ -30,6 +30,7 @@ const path = require('path');
 const React = require('react');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString, renderToNodeStream } = require('react-dom/server');
+const { getLoadableState } = require("loadable-components/server");
 const { StaticRouter } = require('react-router-dom');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
@@ -57,13 +58,7 @@ app.use(views(path.resolve(__dirname, '../../'), {
 const router = new Router();
 
 app.use(async (ctx, next) => {
-  const matchedRouter = matchRoutes(routes, ctx.request.path).filter(({ match }) => match.path !== '/');
-
-  if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) {
-    return next();
-  }
-
-  const html = React.createElement(
+  const component = React.createElement(
     StaticRouter,
     {
       location: ctx.request.url,
@@ -71,9 +66,18 @@ app.use(async (ctx, next) => {
     },
     renderRoutes(routes)
   );
+  const loadableState = await getLoadableState(component);
 
+  const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
+
+  if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) {
+    return next();
+  }
+
+  const html = renderToString(component);
   await ctx.render('client/index.html', {
-    root: renderToString(html),
+    root: html,
+    script: loadableState.getScriptTag()
   });
 });
 
