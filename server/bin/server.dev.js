@@ -23,19 +23,28 @@ require('asset-require-hook')({
 
 const Koa = require('koa');
 const Router = require('koa-router');
-const serve = require('koa-static');
 const views = require('koa-views');
-
+const serve = require('koa-static');
+const convert = require('koa-convert');
 const path = require('path');
-const React = require('react');
-const { matchRoutes, renderRoutes } = require('react-router-config');
-const { renderToString } = require('react-dom/server');
+const { renderToString, renderToNodeStream } = require('react-dom/server');
 const { getLoadableState } = require('loadable-components/server');
-const { StaticRouter } = require('react-router-dom');
+const { matchRoutes, renderRoutes } = require('react-router-config');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('koa-webpack-dev-middleware');
+const webpackHotMiddleware = require('koa-webpack-hot-middleware');
+const { createServeRootComponent, routes } = require('../../shared/createRootComponent');
 
-const routes = require('../../shared/router');
+const config = require('../../webpack/webpack.dev.js');
+const compiler = webpack(config);
 
 const app = new Koa();
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath,
+}));
+
+app.use(convert(webpackHotMiddleware(compiler)));
 
 app.use(views(path.resolve(__dirname, '../../'), {
   map: {
@@ -46,14 +55,8 @@ app.use(views(path.resolve(__dirname, '../../'), {
 const router = new Router();
 
 app.use(async (ctx, next) => {
-  const component = React.createElement(
-    StaticRouter,
-    {
-      location: ctx.request.url,
-      context: {},
-    },
-    renderRoutes(routes)
-  );
+  const component = createServeRootComponent(ctx.request.url);
+
   const loadableState = await getLoadableState(component);
 
   const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
@@ -65,16 +68,15 @@ app.use(async (ctx, next) => {
   const html = renderToString(component);
   await ctx.render('client/index.html', {
     root: html,
-    script: loadableState.getScriptTag()
+    script: loadableState.getScriptTag(),
   });
 });
 
 app.use(router.routes())
   .use(router.allowedMethods());
 
-app.use(serve(path.resolve(__dirname, '../../dist')));
 app.use(serve(path.resolve(__dirname, '../../public')));
 
 app.listen(3000, () => {
-  console.log('PRD app listening on port 3000!\n');
+  console.log('DEV bin listening on port 3000!\n');
 });

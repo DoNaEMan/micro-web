@@ -10,5 +10,5 @@ module.exports = {
   // 所要生产的router.js路径
   rootRouterPath: './shared/router.js',
   // 包含模块，即最终打包的模块
-  //include: /\/pages\/indexA/,
+  // include: /\/pages\/productA/,
 };

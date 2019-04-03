@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const config = {
   entry: {
@@ -44,7 +44,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: ['env', 'react'],
-          plugins: ['syntax-dynamic-import', 'transform-decorators-legacy', 'loadable-components/babel'],
+          plugins: ['syntax-dynamic-import', 'add-module-exports', 'transform-decorators-legacy', 'loadable-components/babel'],
         },
       },
     ],

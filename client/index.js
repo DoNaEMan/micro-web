@@ -1,17 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
 import { loadComponents } from 'loadable-components';
 
-import routes from '../shared/router';
+import { createClientRootComponent } from '../shared/createRootComponent';
 
 loadComponents().then(() => {
-  ReactDOM.render(
-      <BrowserRouter>
-        {renderRoutes(routes)}
-      </BrowserRouter>,
-      document.getElementById('root'),
+  ReactDOM.hydrate(
+    createClientRootComponent(),
+    document.getElementById('root'),
   );
 });
 

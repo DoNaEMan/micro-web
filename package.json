@@ -11,9 +11,9 @@
     "delay": "2500"
   },
   "scripts": {
-    "dev": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/app/server.dev.js",
-    "dev:analyze": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev ANALYZER=true nodemon ./server/app/server.dev.js",
-    "build": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js --progress && node ./server/app/server.prd.js",
+    "dev": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/bin/server.dev.js",
+    "dev:analyze": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev ANALYZER=true nodemon ./server/bin/server.dev.js",
+    "build": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js --progress && node ./server/bin/server.prd.js",
     "build:analyze": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd ANALYZER=true webpack --config ./webpack/webpack.prd.js --progress",
     "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix"
   },

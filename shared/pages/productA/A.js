@@ -1,17 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import * as styles from './style.css';
 
-export default class TestA extends React.Component {
+class A extends React.Component {
   render() {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('qweqweqweqwe');
-    }
     return (
       <div className={styles['carousel-wrap']}>
         <i />
-        AAA
+        {this.props.todos}
       </div>
     );
   }
 }
+
+export default connect(state => ({
+  todos: state.todos,
+}))(A);

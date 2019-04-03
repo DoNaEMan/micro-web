@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const config = {
   entry: {
@@ -28,7 +28,7 @@ const config = {
               modules: true,
               localIdentName: '[path][name]__[local]',
             },
-          }
+          },
         ],
       },
       {
@@ -41,7 +41,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: ['env', 'react'],
-          plugins: ['syntax-dynamic-import', 'transform-decorators-legacy', 'loadable-components/babel'],
+          plugins: ['syntax-dynamic-import', 'add-module-exports', 'transform-decorators-legacy', 'loadable-components/babel'],
         },
       },
     ],
@@ -55,7 +55,7 @@ const config = {
       alwaysWriteToDisk: true,
       title: 'demo',
     }),
-    new HtmlWebpackHarddiskPlugin()
+    new HtmlWebpackHarddiskPlugin(),
   ],
   optimization: {
     splitChunks: {

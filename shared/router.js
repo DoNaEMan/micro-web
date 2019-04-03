@@ -1,12 +1,12 @@
 import Router from './App';
-import PagesIndexARouter from './pages/indexA/router';
-import PagesIndexBRouter from './pages/indexB/router';
+import PagesProductARouter from './pages/productA/router';
+import PagesProductBRouter from './pages/productB/router';
 
 const addFolderNameForRoute = (routes = [], folderPathName = '') => routes.map(route => Object.assign(route, { path: folderPathName + route.path }));
 
 const routes = [{
   component: Router,
-  routes: [...addFolderNameForRoute(PagesIndexARouter, '/pages/indexA'), ...addFolderNameForRoute(PagesIndexBRouter, '/pages/indexB')],
+  routes: [...addFolderNameForRoute(PagesProductARouter, '/pages/productA'), ...addFolderNameForRoute(PagesProductBRouter, '/pages/productB')],
 }];
 
 export default routes;
