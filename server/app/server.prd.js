@@ -30,7 +30,7 @@ const path = require('path');
 const React = require('react');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString } = require('react-dom/server');
-const { getLoadableState } = require("loadable-components/server");
+const { getLoadableState } = require('loadable-components/server');
 const { StaticRouter } = require('react-router-dom');
 
 const routes = require('../../shared/router');

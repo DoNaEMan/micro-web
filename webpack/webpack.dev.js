@@ -2,8 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
+const config = {
   entry: {
     index: ['webpack-hot-middleware/client?reload=true', path.resolve(__dirname, '../client/index.js')],
   },
@@ -54,7 +55,7 @@ module.exports = {
       alwaysWriteToDisk: true,
       title: 'demo',
     }),
-    new HtmlWebpackHarddiskPlugin(),
+    new HtmlWebpackHarddiskPlugin()
   ],
   optimization: {
     splitChunks: {
@@ -76,3 +77,10 @@ module.exports = {
   },
   mode: 'development',
 };
+
+// 选择性加载分析工具
+if (process.env.ANALYZER) {
+  config.plugins.push(new BundleAnalyzerPlugin());
+}
+
+module.exports = config;

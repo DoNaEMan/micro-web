@@ -4,8 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
+const config = {
   entry: {
     index: path.resolve(__dirname, '../client/index.js'),
   },
@@ -88,3 +89,10 @@ module.exports = {
   },
   mode: 'production',
 };
+
+// 选择性加载分析工具
+if (process.env.ANALYZER) {
+  config.plugins.push(new BundleAnalyzerPlugin());
+}
+
+module.exports = config;
