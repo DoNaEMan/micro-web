@@ -11,11 +11,12 @@
     "delay": "2500"
   },
   "scripts": {
-    "dev": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/bin/server.dev.js",
-    "dev:analyze": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=dev ANALYZER=true nodemon ./server/bin/server.dev.js",
-    "build": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js --progress && node ./server/bin/server.prd.js",
-    "build:analyze": "react-dirname-router ./react-dirname-router-config.js && cross-env DEPLOY_ENV=prd ANALYZER=true webpack --config ./webpack/webpack.prd.js --progress",
-    "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix"
+    "dev": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/bin/server.dev.js",
+    "dev:analyze": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=dev ANALYZER=true nodemon ./server/bin/server.dev.js",
+    "build": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=prd webpack --config ./webpack/webpack.prd.js --progress && node ./server/bin/server.prd.js",
+    "build:analyze": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=prd ANALYZER=true webpack --config ./webpack/webpack.prd.js --progress",
+    "eslint:fix": "./node_modules/.bin/eslint . --ext .js --fix",
+    "stylelint:fix": "stylelint 'shared/**/*.css' --fix"
   },
   "repository": {
     "type": "git",
@@ -78,7 +79,7 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "react-dirname-router": "^1.0.0",
+    "react-file-pack": "^1.0.3",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.23.1",
     "webpack": "^4.15.0",

@@ -15,5 +15,5 @@ class B extends React.Component {
 }
 
 export default connect(state => ({
-  counter: state.counter,
+  counter: state.pagesProductB,
 }))(B);

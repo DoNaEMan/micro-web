@@ -15,5 +15,5 @@ class A extends React.Component {
 }
 
 export default connect(state => ({
-  todos: state.todos,
+  todos: state.pagesProductA,
 }))(A);

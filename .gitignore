@@ -71,3 +71,4 @@ typings/
 
 /client/index.html
 /shared/router.js
+/shared/reducer.js
