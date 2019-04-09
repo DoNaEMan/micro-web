@@ -17,7 +17,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.(css|less)$/,
         use: [
           {
             loader: 'style-loader',
@@ -29,6 +29,35 @@ const config = {
               localIdentName: '[path][name]__[local]',
             },
           },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')],
+            },
+          },
+          'less-loader',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[path][name]__[local]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')],
+            },
+          },
+          'sass-loader',
         ],
       },
       {
@@ -63,14 +92,13 @@ const config = {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/](react|redux|antd)/,
-          minChunks: 1,
-          priority: 10,
-          reuseExistingChunk: true,
+          name: 'react-all',
+          chunks: 'all',
         },
-        bundle: {
-          test: /[\\/]pages[\\/].*\.js[\\/]/,
-          minChunks: 2,
-          reuseExistingChunk: true,
+        ant: {
+          test: /[\\/]node_modules[\\/](antd)/,
+          name: 'ant',
+          chunks: 'all',
         },
       },
     },

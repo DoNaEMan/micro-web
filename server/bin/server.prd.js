@@ -4,15 +4,18 @@ require('babel-register')({
   plugins: ['add-module-exports', 'loadable-components/babel', 'dynamic-import-node'],
 });
 
-// scss compiler hook
+// less css hook
 require('css-modules-require-hook')({
-  extensions: ['.scss', '.css'],
-  preprocessCss: (data, filename) => require('node-sass').renderSync({
-    data,
-    file: filename,
-  }).css,
-  camelCase: true,
-  generateScopedName: '[path][name]__[local]',
+  extensions: ['.less', '.css'],
+  processorOpts: { parser: require('postcss-less').parse },
+  generateScopedName: '[local]__[hash:5]',
+});
+
+// sass css hook
+require('css-modules-require-hook')({
+  extensions: ['.scss'],
+  processorOpts: { parser: require('postcss-scss').parse },
+  generateScopedName: '[local]__[hash:5]',
 });
 
 // image compiler hook
@@ -66,7 +69,7 @@ app.use(router.routes())
   .use(router.allowedMethods());
 
 app.use(serve(path.resolve(__dirname, '../../dist')));
-app.use(serve(path.resolve(__dirname, '../../public')));
+app.use(serve(path.resolve(__dirname, '../../static')));
 
 app.listen(3000, () => {
   console.log('PRD bin listening on port 3000!\n');

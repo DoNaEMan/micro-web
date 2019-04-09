@@ -2,8 +2,19 @@ pre {
   color: blue !important;
 }
 
+@import "./style1.less";
+
 * {
   box-sizing: border-box;
+  transform: translate(@n, @n);
+  transition: all 0.3s ease;
+}
+
+@h: 20px;
+
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
 }
 
 .carousel-wrap {
@@ -14,6 +25,11 @@ pre {
   overflow: hidden;
   height: 214px;
   background: gold;
+  .hot {
+    height: @h;
+    background: @c;
+    .bordered();
+  }
 }
 
 .carousel-wrap:hover::after,

@@ -5,8 +5,7 @@
   "main": "",
   "nodemonConfig": {
     "ignore": [
-      "pages/*",
-      "docs/*"
+      "shared/*"
     ],
     "delay": "2500"
   },
@@ -29,19 +28,28 @@
   },
   "homepage": "https://github.com/DoNaEMan/micro-web#readme",
   "dependencies": {
+    "autoprefixer": "^9.5.1",
     "ejs": "^2.6.1",
     "koa": "^2.7.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.5",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "loadable-components": "^2.2.3",
+    "mini-css-extract-plugin": "^0.5.0",
+    "postcss-less": "^3.1.4",
+    "postcss-loader": "^3.0.0",
+    "postcss-scss": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-hot-loader": "^4.8.3",
     "react-redux": "^5.1.1",
     "react-router": "^4.3.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^4.3.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "sass-loader": "^7.1.0"
   },
   "devDependencies": {
     "asset-require-hook": "^1.2.0",
@@ -68,7 +76,6 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-standard": "^4.0.0",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-loader": "^0.5.5",
     "html-webpack-harddisk-plugin": "^1.0.1",
     "html-webpack-plugin": "^3.2.0",

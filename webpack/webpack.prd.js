@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -16,23 +16,47 @@ const config = {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
   },
-  devtool: 'null',
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[path][name]__[local]',
-              },
+        test: /\.(css|less)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]__[hash:5]',
             },
-          ],
-        }),
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')],
+            },
+          },
+          'less-loader',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]__[hash:5]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')],
+            },
+          },
+          'sass-loader',
+        ],
       },
       {
         test: /\.html$/,
@@ -61,9 +85,11 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new ExtractTextPlugin('style.css'),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+    }),
     new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.css$/g,
+      assetNameRegExp: /\.(scss|less|css)$/g,
     }),
   ],
   optimization: {
@@ -71,17 +97,12 @@ const config = {
       cacheGroups: {
         react: {
           test: /[\\/]node_modules[\\/](react|redux)/,
-          name: 'react-family',
+          name: 'react-all',
           chunks: 'all',
         },
         ant: {
           test: /[\\/]node_modules[\\/](antd)/,
           name: 'ant',
-          chunks: 'all',
-        },
-        bundle: {
-          test: /[\\/]pages[\\/]js/,
-          name: 'bundle',
           chunks: 'all',
         },
       },

@@ -14,6 +14,9 @@ pre {
   overflow: hidden;
   height: 214px;
   background: gold;
+  .lot {
+    color: hsl(0, 100%, 50%);
+  }
 }
 
 .carousel-wrap:hover::after,

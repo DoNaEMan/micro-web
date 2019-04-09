@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
+import { hot } from 'react-hot-loader';
+
+import Layout from './Layout';
 
 const App = ({ route }) => (
-  <div>
-    <h1>Hello App</h1>
-    <Link to="/pages/productA/index"><button>A</button></Link>
-    <Link to="/pages/productB/index"><button>B</button></Link>
+  <Layout>
     {renderRoutes(route.routes)}
-  </div>
+  </Layout>
 );
-export default App;
+export default hot(module)(App);

@@ -1,3 +1,5 @@
+const include = /\/pages\/productA/;
+
 module.exports = [{
   // 合并router
   type: 'router',
@@ -12,7 +14,7 @@ module.exports = [{
   // 新文件存放路径
   newFilePath: './shared/router.js',
   // 包含模块，即最终打包的模块
-  // include: /\/pages\/productA/,
+  // include,
 }, {
   // 合并reducer
   type: 'reducer',
@@ -23,5 +25,5 @@ module.exports = [{
   // 新文件存放路径
   newFilePath: './shared/reducer.js',
   // 包含模块，即最终打包的模块
-  // include: /\/pages\/productA/,
+  // include,
 }];
