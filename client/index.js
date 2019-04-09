@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadComponents } from 'loadable-components';
+import Loadable from 'react-loadable';
 
 import { createClientRootComponent } from '../shared/createRootComponent';
 
-loadComponents().then(() => {
+Loadable.preloadReady().then(() => {
   ReactDOM.hydrate(
     createClientRootComponent(),
     document.getElementById('root'),

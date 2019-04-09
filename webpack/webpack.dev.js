@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+import { ReactLoadablePlugin } from 'react-loadable/webpack';
+
 
 const config = {
   entry: {
@@ -70,11 +72,12 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: ['env', 'react'],
-          plugins: ['syntax-dynamic-import', 'add-module-exports', 'transform-decorators-legacy', 'loadable-components/babel'],
+          plugins: ['react-loadable/babel', 'syntax-dynamic-import', 'add-module-exports', 'transform-decorators-legacy', 'loadable-components/babel'],
         },
       },
     ],
   },
+  target: "node",
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -83,6 +86,9 @@ const config = {
       filename: path.resolve(__dirname, '../client/index.html'),
       alwaysWriteToDisk: true,
       title: 'demo',
+    }),
+    new ReactLoadablePlugin({
+      filename: './dist/react-loadable.json',
     }),
     new HtmlWebpackHarddiskPlugin(),
   ],

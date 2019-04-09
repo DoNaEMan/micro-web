@@ -4,15 +4,16 @@ import { connect } from 'react-redux';
 import * as styles from './style.scss';
 
 if (typeof window === 'undefined') {
-  console.log(styles)
+  console.log(styles);
 }
 
 class B extends React.Component {
   counter() {
     this.props.dispatch({
-      type: 'DECREMENT'
-    })
+      type: 'DECREMENT',
+    });
   }
+
   render() {
     return (
       <div className={styles['carousel-wrap']} onClick={() => this.counter()}>

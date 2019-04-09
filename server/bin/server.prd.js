@@ -61,7 +61,7 @@ app.use(async (ctx, next) => {
   const html = renderToString(component);
   await ctx.render('client/index.html', {
     root: html,
-    script: loadableState.getScriptTag()
+    script: loadableState.getScriptTag(),
   });
 });
 

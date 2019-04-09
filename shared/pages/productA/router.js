@@ -1,7 +1,11 @@
-import loadable from 'loadable-components';
+import Loadable from 'react-loadable';
+import Loading from '../../Loading';
 
 export default [{
-    path: '/index',
-    exact: true,
-    component: loadable(() => import('./A'))
-  }];
+  path: '/index',
+  exact: true,
+  component: Loadable({
+    loader: () => import('./A'),
+    loading: Loading
+  })
+}];

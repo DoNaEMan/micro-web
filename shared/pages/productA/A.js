@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as styles from './style.less';
 
 if (typeof window === 'undefined') {
-  console.log(styles)
+  console.log(styles);
 }
 
 class A extends React.Component {
@@ -12,7 +12,7 @@ class A extends React.Component {
     return (
       <div className={styles['carousel-wrap']}>
         <i />
-        <div className={styles.hot}></div>
+        <div className={styles.hot} />
         { this.props.todos }
       </div>
     );
