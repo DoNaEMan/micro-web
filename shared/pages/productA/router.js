@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import Loading from '../../Loading';
+import Loading from '../../components/Loading';
 
 export default [{
   path: '/index',

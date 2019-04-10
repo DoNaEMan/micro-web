@@ -28,14 +28,12 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const serve = require('koa-static');
 const views = require('koa-views');
-
 const path = require('path');
-const React = require('react');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString, renderToNodeStream } = require('react-dom/server');
 const { ChunkExtractor, ChunkExtractorManager } = require('@loadable/server');
-const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
 
+const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
 const { createServeRootComponent, routes } = require('../../shared/createRootComponent').default;
 
 const app = new Koa();
@@ -49,26 +47,24 @@ app.use(views(path.resolve(__dirname, '../../'), {
 const router = new Router();
 
 app.use(async (ctx, next) => {
+  if (!/^\/pages/.test(ctx.request.path)) return next();
+
   const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
 
-  if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) {
-    return next();
-  }
+  if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) return next();
 
   const component = createServeRootComponent(ctx.request.url);
 
-  const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
+  const extractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
 
-
-  const jsx = chunkExtractor.collectChunks(component);
-
+  const jsx = extractor.collectChunks(component);
 
   const html = renderToString(jsx);
 
   await ctx.render('client/index.html', {
     root: html,
-    script: chunkExtractor.getScriptTags(),
-    link: chunkExtractor.getLinkTags()
+    script: extractor.getScriptTags(),
+    link: extractor.getStyleTags(),
   });
 });
 

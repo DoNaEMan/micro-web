@@ -81,6 +81,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../template/index.html'),
       filename: path.resolve(__dirname, '../client/index.html'),
+      inject: false,
       title: 'demo',
     }),
     new webpack.DefinePlugin({
@@ -91,7 +92,7 @@ const config = {
     }),
     new LoadablePlugin({
       filename: '../dist/loadable-stats.json',
-      writeToDisk: true
+      writeToDisk: true,
     }),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.(scss|less|css)$/g,

@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const LoadablePlugin = require('@loadable/webpack-plugin');
-
+const WebpackBar = require('webpackbar');
 
 const config = {
   entry: {
@@ -12,7 +12,7 @@ const config = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
   },
   devtool: 'inline-source-map',
@@ -21,9 +21,7 @@ const config = {
       {
         test: /\.(css|less)$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -43,9 +41,7 @@ const config = {
       {
         test: /\.scss$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -83,14 +79,16 @@ const config = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../template/index.html'),
       filename: path.resolve(__dirname, '../client/index.html'),
+      inject: false,
       alwaysWriteToDisk: true,
       title: 'demo',
     }),
     new LoadablePlugin({
       filename: path.resolve(__dirname, '../dist/loadable-stats.json'),
-      writeToDisk: true
+      writeToDisk: true,
     }),
     new HtmlWebpackHarddiskPlugin(),
+    new WebpackBar(),
   ],
   optimization: {
     splitChunks: {
