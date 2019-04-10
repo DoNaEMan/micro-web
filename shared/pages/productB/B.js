@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 
 import * as styles from './style.scss';
 
-if (typeof window === 'undefined') {
-  console.log(styles);
-}
-
 class B extends React.Component {
   counter() {
     this.props.dispatch({

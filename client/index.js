@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Loadable from 'react-loadable';
+import { loadableReady } from '@loadable/component';
 
-import { createClientRootComponent } from '../shared/createRootComponent';
+import * as a from '../shared/createRootComponent';
 
-Loadable.preloadReady().then(() => {
+loadableReady(() => {
   ReactDOM.hydrate(
-    createClientRootComponent(),
+    a.default.createClientRootComponent(),
     document.getElementById('root'),
   );
 });

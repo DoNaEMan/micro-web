@@ -5,6 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const config = {
   entry: {
@@ -67,8 +68,8 @@ const config = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react'],
-          plugins: ['syntax-dynamic-import', 'add-module-exports', 'transform-decorators-legacy', 'loadable-components/babel'],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: ['@babel/plugin-syntax-dynamic-import', '@loadable/babel-plugin'],
         },
       },
     ],
@@ -87,6 +88,10 @@ const config = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
+    }),
+    new LoadablePlugin({
+      filename: '../dist/loadable-stats.json',
+      writeToDisk: true
     }),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.(scss|less|css)$/g,

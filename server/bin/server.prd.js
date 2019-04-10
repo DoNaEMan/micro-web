@@ -1,7 +1,7 @@
-require('babel-register')({
-  ignore: /node_modules\//,
-  presets: ['env', 'react'],
-  plugins: ['add-module-exports', 'loadable-components/babel', 'dynamic-import-node'],
+require('@babel/register')({
+  ignore: [/node_modules\//],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+  plugins: ['@loadable/babel-plugin', 'dynamic-import-node'],
 });
 
 // less css hook
@@ -33,9 +33,10 @@ const path = require('path');
 const React = require('react');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString, renderToNodeStream } = require('react-dom/server');
-const { getLoadableState } = require('loadable-components/server');
+const { ChunkExtractor, ChunkExtractorManager } = require('@loadable/server');
+const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
 
-const { createServeRootComponent, routes } = require('../../shared/createRootComponent');
+const { createServeRootComponent, routes } = require('../../shared/createRootComponent').default;
 
 const app = new Koa();
 
@@ -48,20 +49,26 @@ app.use(views(path.resolve(__dirname, '../../'), {
 const router = new Router();
 
 app.use(async (ctx, next) => {
-  const component = createServeRootComponent(ctx.request.url);
-
-  const loadableState = await getLoadableState(component);
-
   const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
 
   if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) {
     return next();
   }
 
-  const html = renderToString(component);
+  const component = createServeRootComponent(ctx.request.url);
+
+  const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
+
+
+  const jsx = chunkExtractor.collectChunks(component);
+
+
+  const html = renderToString(jsx);
+
   await ctx.render('client/index.html', {
     root: html,
-    script: loadableState.getScriptTag(),
+    script: chunkExtractor.getScriptTags(),
+    link: chunkExtractor.getLinkTags()
   });
 });
 

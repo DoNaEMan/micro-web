@@ -1,7 +1,7 @@
-require('babel-register')({
-  ignore: /node_modules\//,
-  presets: ['env', 'react'],
-  plugins: ['add-module-exports', 'loadable-components/babel', 'dynamic-import-node'],
+require('@babel/register')({
+  ignore: [/node_modules\//],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+  plugins: ['@loadable/babel-plugin', 'dynamic-import-node'],
 });
 
 // less css hook
@@ -31,23 +31,17 @@ const serve = require('koa-static');
 const convert = require('koa-convert');
 const path = require('path');
 const { renderToString, renderToNodeStream } = require('react-dom/server');
-const { getLoadableState } = require('loadable-components/server');
-const stats = require('../../dist/react-loadable.json');
-const Loadable = require('react-loadable');
-const { getBundles } = require('react-loadable/webpack');
+const { ChunkExtractor, ChunkExtractorManager } = require('@loadable/server');
+const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
 const webpackHotMiddleware = require('koa-webpack-hot-middleware');
-// const { createServeRootComponent, routes } = require('../../shared/createRootComponent');
+const { createServeRootComponent, routes } = require('../../shared/createRootComponent').default;
 
 const config = require('../../webpack/webpack.dev.js');
 
 const React = require('react');
-const { Provider } = require('react-redux');
-const { BrowserRouter, StaticRouter } = require('react-router-dom');
-const store = require('../../shared/createStore');
-const routes = require('../../shared/router');
 
 const compiler = webpack(config);
 
@@ -74,42 +68,19 @@ app.use(async (ctx, next) => {
     return next();
   }
 
-  const modules = [];
+  const component = createServeRootComponent(ctx.request.url);
 
-  // const component = createServeRootComponent(ctx.request.url, modules);
+  const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
 
-  //console.log(1212, component)
 
-  const html = renderToString(React.createElement(
-    Loadable.Capture,
-    { report: moduleName => modules.push(moduleName) },
-    React.createElement(
-      Provider, { store },
-      React.createElement(
-        StaticRouter,
-        {
-          location: ctx.request.url,
-          context: {},
-        },
-        renderRoutes(routes),
-      )
-    ),
-  ));
+  const jsx = chunkExtractor.collectChunks(component);
 
-  const bundles = getBundles(stats, modules);
 
-  const script = bundles.map(bundle => {
-    return `<script src="/${bundle.file}"></script>`
-    // alternatively if you are using publicPath option in webpack config
-    // you can use the publicPath value from bundle, e.g:
-    // return `<script src="${bundle.publicPath}"></script>`
-  }).join('\n');
-
-  console.log(1111, modules, bundles);
+  const html = renderToString(jsx);
 
   await ctx.render('client/index.html', {
     root: html,
-    script
+    script: chunkExtractor.getScriptTags()
   });
 });
 
@@ -118,9 +89,6 @@ app.use(router.routes())
 
 app.use(serve(path.resolve(__dirname, '../../static')));
 
-Loadable.preloadAll().then(() => {
-  app.listen(3000, () => {
-    console.log('DEV bin listening on port 3000!\n');
-  });
+app.listen(3000, () => {
+  console.log('DEV bin listening on port 3000!\n');
 });
-
