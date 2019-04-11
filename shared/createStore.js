@@ -3,4 +3,18 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducer from './reducer';
 
-export default createStore(reducer, composeWithDevTools(applyMiddleware()));
+const arg = [reducer];
+
+if (typeof window === 'object') {
+  if (window.__server_state__) {
+    arg.push(window.__server_state__);
+  }
+}
+
+if (process.env.NODE_ENV === 'development') {
+  arg.push(composeWithDevTools(applyMiddleware()));
+}
+
+const store = createStore.apply(null, arg);
+
+export default store;

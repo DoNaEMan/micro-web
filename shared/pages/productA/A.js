@@ -5,8 +5,17 @@ import axios from '../../../utils/axios';
 import * as styles from './style.less';
 
 class A extends React.Component {
+  static loaddata(domain){
+    return {
+      request: () => axios.post(`${domain}/api/test`),
+      callback: (dispatch, res) => (dispatch({
+        type: 'ADD_TODO',
+        payload: res.data
+      }))
+    };
+  }
   componentDidMount() {
-    // A.preload(this.props.dispatch);
+    // A.loaddata(this.props.dispatch);
   }
   render() {
     return (
@@ -20,16 +29,6 @@ class A extends React.Component {
     );
   }
 }
-
-A.loaddata = function (dispatch, cb){
-  axios.post('/api/test').then((res) => {
-    dispatch({
-      type: 'ADD_TODO',
-      payload: res.data
-    });
-    cb && cb();
-  });
-};
 
 export default connect(state => ({
   todos: state.pagesProductA,

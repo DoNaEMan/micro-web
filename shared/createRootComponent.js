@@ -15,8 +15,8 @@ const createClientRootComponent = () => (
   </Provider>
 );
 
-const createServeRootComponent = (url) => (
-  <Provider store={store}>
+const createServeRootComponent = (url, _store = null) => (
+  <Provider store={_store || store}>
     <StaticRouter location={url} context={{}}>
       {renderRoutes(routes)}
     </StaticRouter>

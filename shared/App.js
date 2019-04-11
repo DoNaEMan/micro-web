@@ -4,9 +4,15 @@ import { hot } from 'react-hot-loader';
 
 import Layout from './components/Layout';
 
-const App = ({ route }) => (
+let App = ({ route }) => (
   <Layout>
     {renderRoutes(route.routes)}
   </Layout>
 );
-export default hot(module)(App);
+
+if (process.env.NODE_ENV === 'development') {
+  // react热更新
+  App = hot(module)(App);
+}
+
+export default App;

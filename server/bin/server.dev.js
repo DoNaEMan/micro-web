@@ -68,14 +68,27 @@ app.use(async (ctx, next) => {
 
   if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) return next();
 
-  matchedRouter.forEach((item) => {
-    console.log(item.route.component, item.route.component.loaddata);
-    /*item.route.component.loaddata(store.dispatch, () => {
-      console.log(store.getState());
-    });*/
-  })
+  const all = [], cb = [];
 
-  const component = createServeRootComponent(ctx.request.url);
+  matchedRouter.forEach((item) => {
+    const { component } = item.route;
+    const loaddata = (component.WrappedComponent && component.WrappedComponent.loaddata) || component.loaddata;
+    if (!loaddata) return;
+    const { request, callback } = loaddata('http://127.0.0.1:3000');
+    all.push(request());
+    cb.push(callback);
+  });
+
+  if (all) {
+    const value = await Promise.all(all);
+    cb.forEach((callback, index) => {
+      callback(store.dispatch, value[index]);
+    });
+  }
+
+  const state = JSON.stringify(store.getState() || {});
+
+  const component = createServeRootComponent(ctx.request.url, store);
 
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
 
@@ -87,6 +100,7 @@ app.use(async (ctx, next) => {
     root: html,
     script: extractor.getScriptTags(),
     link: extractor.getStyleTags(),
+    state,
   });
 });
 

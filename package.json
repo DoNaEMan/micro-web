@@ -8,7 +8,7 @@
       "shared/*",
       "dist/*"
     ],
-    "delay": "3000"
+    "delay": "2500"
   },
   "scripts": {
     "dev": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/bin/server.dev.js",
