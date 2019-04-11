@@ -1,7 +1,7 @@
 require('@babel/register')({
   ignore: [/node_modules\//],
   presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: ['@loadable/babel-plugin', 'dynamic-import-node'],
+  plugins: ['@loadable/babel-plugin', 'dynamic-import-node', 'add-module-exports'],
 });
 
 // less css hook
@@ -28,6 +28,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const serve = require('koa-static');
 const views = require('koa-views');
+const bodyParser = require('koa-bodyparser');
 const path = require('path');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 const { renderToString, renderToNodeStream } = require('react-dom/server');
@@ -43,6 +44,8 @@ app.use(views(path.resolve(__dirname, '../../'), {
     html: 'ejs',
   },
 }));
+
+app.use(bodyParser());
 
 const router = new Router();
 

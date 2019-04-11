@@ -8,7 +8,7 @@
       "shared/*",
       "dist/*"
     ],
-    "delay": "2500"
+    "delay": "3000"
   },
   "scripts": {
     "dev": "react-file-pack ./react-file-pack-config.js && cross-env DEPLOY_ENV=dev nodemon ./server/bin/server.dev.js",
@@ -34,14 +34,17 @@
     "@loadable/server": "^5.7.0",
     "@loadable/webpack-plugin": "^5.7.1",
     "autoprefixer": "^9.5.1",
+    "axios": "^0.18.0",
     "ejs": "^2.6.1",
     "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.5",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
+    "postcss": "^6.0.23",
     "postcss-less": "^3.1.4",
     "postcss-loader": "^3.0.0",
     "postcss-scss": "^2.0.0",
@@ -53,6 +56,7 @@
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^7.1.0"
   },
   "devDependencies": {

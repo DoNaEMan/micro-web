@@ -1,7 +1,7 @@
 require('@babel/register')({
-  ignore: [/node_modules\//],
+  ignore: [/node_modules\//, /server\/router\//],
   presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: ['@loadable/babel-plugin', 'dynamic-import-node'],
+  plugins: ['@loadable/babel-plugin', 'dynamic-import-node', 'add-module-exports'],
 });
 
 // less css hook
@@ -24,12 +24,14 @@ require('asset-require-hook')({
   limit: 8000,
 });
 
+const path = require('path');
+const fs = require('fs');
 const Koa = require('koa');
 const Router = require('koa-router');
 const views = require('koa-views');
 const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 const convert = require('koa-convert');
-const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
 const webpackHotMiddleware = require('koa-webpack-hot-middleware');
@@ -38,7 +40,7 @@ const { ChunkExtractor, ChunkExtractorManager } = require('@loadable/server');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 
 const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
-const { createServeRootComponent, routes } = require('../../shared/createRootComponent').default;
+const { createServeRootComponent, routes, store } = require('../../shared/createRootComponent');
 const config = require('../../webpack/webpack.dev.js');
 
 const compiler = webpack(config);
@@ -57,7 +59,7 @@ app.use(views(path.resolve(__dirname, '../../'), {
   },
 }));
 
-const router = new Router();
+app.use(bodyParser());
 
 app.use(async (ctx, next) => {
   if (!/^\/pages/.test(ctx.request.path)) return next();
@@ -65,6 +67,13 @@ app.use(async (ctx, next) => {
   const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
 
   if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) return next();
+
+  matchedRouter.forEach((item) => {
+    console.log(item.route.component, item.route.component.loaddata);
+    /*item.route.component.loaddata(store.dispatch, () => {
+      console.log(store.getState());
+    });*/
+  })
 
   const component = createServeRootComponent(ctx.request.url);
 
@@ -81,8 +90,16 @@ app.use(async (ctx, next) => {
   });
 });
 
-app.use(router.routes())
-  .use(router.allowedMethods());
+const router = new Router({ prefix: '/api' });
+// 收集 ./router 文件夹中的所有router
+const routerPath = path.resolve(__dirname, '../router');
+fs.readdirSync(routerPath).filter(filename => filename.endsWith('.js')).forEach((filename) => {
+  const subRouter = require(`${routerPath}/${filename}`);
+  router.use(subRouter.routes(), subRouter.allowedMethods());
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
 
 app.use(serve(path.resolve(__dirname, '../../static')));
 

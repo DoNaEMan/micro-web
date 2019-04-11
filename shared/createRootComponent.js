@@ -23,9 +23,9 @@ const createServeRootComponent = (url) => (
   </Provider>
 );
 
-
-export default {
+export {
   createClientRootComponent,
   createServeRootComponent,
   routes,
+  store
 };
