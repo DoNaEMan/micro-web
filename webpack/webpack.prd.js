@@ -100,15 +100,11 @@ const config = {
   ],
   optimization: {
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        react: {
-          test: /[\\/]node_modules[\\/](react|redux)/,
-          name: 'react-all',
-          chunks: 'all',
-        },
-        ant: {
-          test: /[\\/]node_modules[\\/](antd)/,
-          name: 'ant',
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
           chunks: 'all',
         },
       },

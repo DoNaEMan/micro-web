@@ -95,13 +95,8 @@ const config = {
       chunks: 'all',
       cacheGroups: {
         vendors: {
-          test: /[\\/]node_modules[\\/](react|redux|antd)/,
-          name: 'react-all',
-          chunks: 'all',
-        },
-        ant: {
-          test: /[\\/]node_modules[\\/](antd)/,
-          name: 'ant',
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
           chunks: 'all',
         },
       },

@@ -40,7 +40,7 @@ const { ChunkExtractor, ChunkExtractorManager } = require('@loadable/server');
 const { matchRoutes, renderRoutes } = require('react-router-config');
 
 const statsFile = path.resolve(__dirname, '../../dist/loadable-stats.json');
-const { createServeRootComponent, routes, store } = require('../../shared/createRootComponent');
+const { createServeRootComponent, routes, arg, createStore } = require('../../shared/createRootComponent');
 const config = require('../../webpack/webpack.dev.js');
 
 const compiler = webpack(config);
@@ -61,27 +61,26 @@ app.use(views(path.resolve(__dirname, '../../'), {
 
 app.use(bodyParser());
 
-app.use(async (ctx, next) => {
-  if (!/^\/pages/.test(ctx.request.path)) return next();
-
+const reactRouter = new Router({ prefix: '/pages' });
+reactRouter.get('*', async (ctx, next) => {
   const matchedRouter = matchRoutes(routes[0].routes, ctx.request.path).filter(({ match }) => match.path !== '/');
-
   if (!Array.isArray(matchedRouter) || matchedRouter.length === 0) return next();
 
-  const all = [], cb = [];
-
-  matchedRouter.forEach((item) => {
-    const { component } = item.route;
-    const loaddata = (component.WrappedComponent && component.WrappedComponent.loaddata) || component.loaddata;
+  const allRequsts = [];
+  const allCallbacks = [];
+  const store = createStore(...arg);
+  matchedRouter.forEach(({ route: { component }, route }) => {
+    console.log(route);
+    const loaddata = route.loaddata || (component.WrappedComponent && component.WrappedComponent.loaddata) || component.loaddata;
     if (!loaddata) return;
     const { request, callback } = loaddata('http://127.0.0.1:3000');
-    all.push(request());
-    cb.push(callback);
+    allRequsts.push(request());
+    allCallbacks.push(callback);
   });
 
-  if (all) {
-    const value = await Promise.all(all);
-    cb.forEach((callback, index) => {
+  if (allRequsts.length) {
+    const value = await Promise.all(allRequsts);
+    allCallbacks.forEach((callback, index) => {
       callback(store.dispatch, value[index]);
     });
   }
@@ -89,13 +88,9 @@ app.use(async (ctx, next) => {
   const state = JSON.stringify(store.getState() || {});
 
   const component = createServeRootComponent(ctx.request.url, store);
-
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['index'] });
-
   const jsx = extractor.collectChunks(component);
-
   const html = renderToString(jsx);
-
   await ctx.render('client/index.html', {
     root: html,
     script: extractor.getScriptTags(),
@@ -103,9 +98,10 @@ app.use(async (ctx, next) => {
     state,
   });
 });
+app.use(reactRouter.routes()).use(reactRouter.allowedMethods());
 
-const router = new Router({ prefix: '/api' });
 // 收集 ./router 文件夹中的所有router
+const router = new Router({ prefix: '/api' });
 const routerPath = path.resolve(__dirname, '../router');
 fs.readdirSync(routerPath).filter(filename => filename.endsWith('.js')).forEach((filename) => {
   const subRouter = require(`${routerPath}/${filename}`);

@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === 'development') {
   arg.push(composeWithDevTools(applyMiddleware()));
 }
 
-const store = createStore.apply(null, arg);
-
-export default store;
+export {
+  createStore,
+  arg,
+};
