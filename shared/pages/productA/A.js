@@ -6,10 +6,7 @@ import * as styles from './style.less';
 
 class A extends React.Component {
   componentDidMount() {
-    const { request, callback } = loaddata();
-    request().then((res) => {
-      callback(this.props.dispatch, res)
-    })
+
   }
   render() {
     return (

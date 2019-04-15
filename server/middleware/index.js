@@ -1,8 +1,5 @@
-const middleware = async (ctx, next) => {
-  return next();
-}
+const auth = require('./auth');
 
-module.exports = {
-  order: 1,
-  middleware,
-}
+const middlewares = [auth];
+
+module.exports = middlewares;

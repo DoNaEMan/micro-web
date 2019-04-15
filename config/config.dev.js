@@ -1,15 +1,7 @@
-import { DEV, PORT } from './constantConfig';
-import externalDomain from './externalDomain';
-import base from './config.base';
+const base = require('./config.base');
 
-const LOCAL_HOST = '127.0.0.1';
-const LOCAL_PORT = process.env[PORT] || 8080;
-const DOMAIN = `http://${LOCAL_HOST}:${LOCAL_PORT}`;
-
-export default {
+const config = {
   ...base,
-  LOCAL_HOST,
-  LOCAL_PORT,
-  DOMAIN,
-  externalDomain: externalDomain[DEV],
 };
+
+module.exports = config;

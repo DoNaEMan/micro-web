@@ -29,6 +29,4 @@ export {
   createClientRootComponent,
   createServeRootComponent,
   routes,
-  createStore,
-  arg,
 };
