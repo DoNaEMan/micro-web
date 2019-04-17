@@ -4,7 +4,7 @@ if (process.env.DEPLOY_ENV === 'dev') {
 }
 
 require('@babel/register')({
-  ignore: [/node_modules\//, /server\/router\//],
+  ignore: [/node_modules\//, /server\/router\//, /node_modules\\/, /server\\router\\/],
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: ['@loadable/babel-plugin', 'dynamic-import-node', 'add-module-exports'],
 });
