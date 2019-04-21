@@ -6,6 +6,7 @@ WORKDIR /root/app
 
 RUN npm install
 
+COPY ./package.json  /root/app/
 COPY ./ /root/app
 
 RUN npm run build
