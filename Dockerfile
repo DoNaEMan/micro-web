@@ -4,9 +4,10 @@ RUN mkdir -p /root/app
 
 WORKDIR /root/app
 
+COPY ./package.json  /root/app/
+
 RUN npm install
 
-COPY ./package.json  /root/app/
 COPY ./ /root/app
 
 RUN npm run build
