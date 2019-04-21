@@ -1,10 +1,10 @@
 FROM node:10.15.3-alpine
 
-RUN mkdir -p /root/app
-
+RUN mkdir -p /var/www/html/
+WORKDIR /var/www/html
+COPY ./package.json  /var/www/html/
 RUN npm install
-
-WORKDIR /root/app
+COPY ./ /var/www/html
 
 RUN npm run build
 
