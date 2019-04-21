@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/DoNaEMan/micro-web#readme",
   "dependencies": {
-    "8.4.0": "^1.0.1",
     "@loadable/babel-plugin": "^5.7.2",
     "@loadable/component": "^5.7.0",
     "@loadable/server": "^5.7.0",
