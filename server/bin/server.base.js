@@ -28,7 +28,7 @@ const main = (app) => {
   };
   // 所有path为/api/* 的http请求路由
   const apiRouter = new Router({ prefix: '/api' });
-  // 所有path为/pages/* 的http请求路由，与react客户端路由同步
+  // 所有path不为/api/* 的http请求路由，与react客户端路由同步
   const pagesRouter = new Router();
   collectRouter((subRouter, filename) => {
     if (filename !== 'pages.js') {
