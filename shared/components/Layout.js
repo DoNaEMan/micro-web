@@ -7,8 +7,8 @@ const App = props => (
   <div>
     <h1 className={styles.apple}>Hello App qwe</h1>
     <img src="/head.jpg" />
-    <Link to="/pages/productA/index"><button>A</button></Link>
-    <Link to="/pages/productB/index"><button>B</button></Link>
+    <Link to="/productA/index"><button>A</button></Link>
+    <Link to="/productB/index"><button>B</button></Link>
     { props.children }
   </div>
 );
