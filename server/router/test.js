@@ -4,7 +4,7 @@ const router = new Router();
 
 router.post('/test', async (ctx, next) => {
   ctx.state = 200;
-  ctx.body = 'I am fine!';
+  ctx.body = `I am fine!? ${process.NODE_NEV}`;
   return next();
 });
 
