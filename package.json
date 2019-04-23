@@ -97,7 +97,7 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "react-file-pack": "^1.0.5",
+    "react-file-pack": "^1.1.0",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.6",

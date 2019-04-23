@@ -13,6 +13,7 @@ module.exports = [{
   entryModulePath: './shared/App.js',
   // 新文件存放路径
   newFilePath: './shared/router.js',
+  routerPrefixFilter: /\/?pages/,
   // 包含模块，即最终打包的模块
   // include,
 }, {

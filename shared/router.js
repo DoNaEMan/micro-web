@@ -9,7 +9,7 @@ const addFolderNameForRoute = (routes = [], folderPathName = '') => routes.map(r
 
 const routes = [{
   component: App,
-  routes: [...addFolderNameForRoute(PagesProductA, '/pages/productA'), ...addFolderNameForRoute(PagesProductB, '/pages/productB')],
+  routes: [...addFolderNameForRoute(PagesProductA, '/productA'), ...addFolderNameForRoute(PagesProductB, '/productB')],
 }];
 
 export default routes;
